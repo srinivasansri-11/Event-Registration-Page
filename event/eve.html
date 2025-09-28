@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Registration</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+      color: #fff;
+    }
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    a {
+      margin-top: 15px;
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <video autoplay muted loop id="bg-video">
+    <source src="video/12900822_1920_1080_30fps.mp4" type="video/mp4">
+  </video>
+
+  <h2>Event Registration</h2>
+  <form id="registerForm">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <button type="submit">Register</button>
+  </form>
+  <p id="message"></p>
+  <a href="view.html">View Registrations</a>
+
+  <script>
+    const form = document.getElementById("registerForm");
+    const msg = document.getElementById("message");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      // Basic client-side validation
+      if (!name || !email) {
+        msg.textContent = "Please fill all fields.";
+        msg.style.color = "red";
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:5000/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email })
+        });
+
+        const result = await response.json();
+
+       
+    });
+  </script>
+</body>
+</html>
